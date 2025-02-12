@@ -32,15 +32,15 @@ public class AutoreController {
         return autoreService.save(request);
     }
 
-//    @PutMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public CreateResponse update(@PathVariable Long id, @RequestBody AutoreRequest request) {
-//        return autoreService.update(id, request);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void delete(@PathVariable Long id) {
-//        autoreService.delete(id);
-//    }
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CreateResponse update(@PathVariable Long id, @RequestBody AutoreRequest request) {
+        return autoreService.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        autoreService.delete(id);
+    }
 }

@@ -54,17 +54,17 @@ public class AutoreService {
     }
 
     //metodo PUT per modificare un autore
-//    public CreateResponse update(Long id, AutoreRequest request){
-//        Autore autore = findById(id);
-//        BeanUtils.copyProperties(request, autore);
-//        autoreRepository.save(autore);
-//        return new CreateResponse(autore.getId());
-//    }
-//
+    public CreateResponse update(Long id, AutoreRequest request){
+        Autore autore = autoreRepository.findById(id).get();
+        BeanUtils.copyProperties(request, autore);
+        autoreRepository.save(autore);
+        return new CreateResponse(autore.getId());
+    }
+
 //    //metodo DELETE per eliminare un autore
-//    public void delete(Long id){
-//        AutoreResponse autore = findById(id);
-//        autoreRepository.delete(autore);
-//    }
+    public void delete(Long id){
+        Autore autore = autoreRepository.findById(id).get();
+        autoreRepository.delete(autore);
+    }
 
 }
