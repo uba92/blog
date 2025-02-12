@@ -20,15 +20,25 @@ public class AutoreService {
     private final PostService postService;
 
     //metodo GET per tutti gli autori
-    public List<Autore> findAll() {
-        return new ArrayList<>(autoreRepository.findAll());
+    public List<AutoreResponse> findAll() {
+        List<Autore> autori = autoreRepository.findAll();
+        List<AutoreResponse> autoriResponse = new ArrayList<>();
+        for (Autore autore : autori) {
+            AutoreResponse autoreResponse = new AutoreResponse();
+            BeanUtils.copyProperties(autore, autoreResponse);
+            autoriResponse.add(autoreResponse);
+        }
+        return autoriResponse;
     }
     //metodo GET trova autore da Id
-    public Autore findById(Long id){
+    public AutoreResponse findById(Long id){
         if (!autoreRepository.existsById(id)) {
             throw new EntityNotFoundException("Autore non trovato");
         }
-        return autoreRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Autore non trovato"));
+        Autore autore = autoreRepository.findById(id).get();
+        AutoreResponse autoreResponse = new AutoreResponse();
+        BeanUtils.copyProperties(autore, autoreResponse);
+        return autoreResponse;
     }
 
     // crea un nuovo autore
@@ -44,17 +54,17 @@ public class AutoreService {
     }
 
     //metodo PUT per modificare un autore
-    public CreateResponse update(Long id, AutoreRequest request){
-        Autore autore = findById(id);
-        BeanUtils.copyProperties(request, autore);
-        autoreRepository.save(autore);
-        return new CreateResponse(autore.getId());
-    }
-
-    //metodo DELETE per eliminare un autore
-    public void delete(Long id){
-        Autore autore = findById(id);
-        autoreRepository.delete(autore);
-    }
+//    public CreateResponse update(Long id, AutoreRequest request){
+//        Autore autore = findById(id);
+//        BeanUtils.copyProperties(request, autore);
+//        autoreRepository.save(autore);
+//        return new CreateResponse(autore.getId());
+//    }
+//
+//    //metodo DELETE per eliminare un autore
+//    public void delete(Long id){
+//        AutoreResponse autore = findById(id);
+//        autoreRepository.delete(autore);
+//    }
 
 }

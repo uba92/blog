@@ -16,13 +16,13 @@ public class AutoreController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Autore> findAll() {
+    public List<AutoreResponse> findAll() {
         return autoreService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Autore findById(@PathVariable Long id) {
+    public AutoreResponse findById(@PathVariable Long id) {
         return autoreService.findById(id);
     }
 
@@ -32,15 +32,15 @@ public class AutoreController {
         return autoreService.save(request);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public CreateResponse update(@PathVariable Long id, @RequestBody AutoreRequest request) {
-        return autoreService.update(id, request);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        autoreService.delete(id);
-    }
+//    @PutMapping("/{id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public CreateResponse update(@PathVariable Long id, @RequestBody AutoreRequest request) {
+//        return autoreService.update(id, request);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void delete(@PathVariable Long id) {
+//        autoreService.delete(id);
+//    }
 }

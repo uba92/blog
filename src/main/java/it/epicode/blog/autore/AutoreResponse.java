@@ -13,7 +13,4 @@ public class AutoreResponse {
     private Long id;
     private String nome;
     private String cognome;
-    private LocalDate dataDiNascita;
-    private String email;
-    private String avatar;
 }
