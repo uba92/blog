@@ -1,7 +1,6 @@
 package it.epicode.blog.posts;
 
-import it.epicode.blog.posts.Post;
-import it.epicode.blog.posts.PostRequest;
+import it.epicode.blog.autore.AutoreService;
 import it.epicode.blog.responses.CreateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final AutoreService autoreService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -24,7 +24,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Post findById(Long id) {
+    public Post findById(@PathVariable Long id) {
         return postService.findById(id);
     }
 
@@ -32,6 +32,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public CreateResponse save(@RequestBody PostRequest request) {
         return postService.save(request);
+
     }
 
     @PutMapping("/{id}")

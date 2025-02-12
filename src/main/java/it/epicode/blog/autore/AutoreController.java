@@ -22,7 +22,7 @@ public class AutoreController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Autore findById(Long id) {
+    public Autore findById(@PathVariable Long id) {
         return autoreService.findById(id);
     }
 

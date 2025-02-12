@@ -1,6 +1,7 @@
 package it.epicode.blog.posts;
 
 
+import it.epicode.blog.autore.Autore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,6 @@ public class PostRequest {
     private String titolo;
     private String cover;
     private String contenuto;
-    private Time tempoDiLettura;
+    private int tempoDiLettura;
+    private Long autoreId;
 }

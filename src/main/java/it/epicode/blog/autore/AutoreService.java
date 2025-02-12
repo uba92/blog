@@ -1,31 +1,34 @@
 package it.epicode.blog.autore;
 
+import it.epicode.blog.posts.PostService;
 import it.epicode.blog.responses.CreateResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AutoreService {
     private final AutoreRepository autoreRepository;
+    private final PostService postService;
 
     //metodo GET per tutti gli autori
-    public List<Autore> findAll(){
-        return autoreRepository.findAll();
+    public List<Autore> findAll() {
+        return new ArrayList<>(autoreRepository.findAll());
     }
-
     //metodo GET trova autore da Id
     public Autore findById(Long id){
         if (!autoreRepository.existsById(id)) {
             throw new EntityNotFoundException("Autore non trovato");
         }
-        return autoreRepository.findById(id).get();
+        return autoreRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Autore non trovato"));
     }
 
     // crea un nuovo autore
@@ -53,4 +56,5 @@ public class AutoreService {
         Autore autore = findById(id);
         autoreRepository.delete(autore);
     }
+
 }

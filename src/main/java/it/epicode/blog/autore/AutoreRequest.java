@@ -15,4 +15,6 @@ public class AutoreRequest {
     private LocalDate dataDiNascita;
     private String email;
     private String avatar;
+
+
 }

@@ -1,11 +1,14 @@
 package it.epicode.blog.posts;
 
+import it.epicode.blog.autore.Autore;
+import it.epicode.blog.autore.AutoreRepository;
 import it.epicode.blog.responses.CreateResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -14,10 +17,12 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-
+    @Autowired
+    private AutoreRepository autoreRepository;
     //metodo GET per tutti gli autori
     public List<Post> findAll(){
         return postRepository.findAll();
+
     }
 
     //metodo GET trova post da Id
@@ -33,9 +38,13 @@ public class PostService {
         if (postRepository.existsByTitolo(request.getTitolo())) {
             throw new EntityExistsException("Post già esistente");
         }
+        Autore autore = autoreRepository.findById(request.getAutoreId()).get();
         Post post = new Post();
         BeanUtils.copyProperties(request, post);
+        post.setAutore(autore);
         postRepository.save(post);
+
+
         return new CreateResponse(post.getId());
     }
 
@@ -52,4 +61,6 @@ public class PostService {
         Post post = findById(id);
         postRepository.delete(post);
     }
+
+
 }

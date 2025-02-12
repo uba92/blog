@@ -19,4 +19,6 @@ public class ExceptionHandlerClass {
     protected ResponseEntity<Error> entityExists(EntityExistsException e) {
         return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
     }
+
+
 }

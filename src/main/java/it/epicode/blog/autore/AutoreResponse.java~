@@ -1,0 +1,4 @@
+package it.epicode.blog.autore;
+
+public class AutoreResponse {
+}

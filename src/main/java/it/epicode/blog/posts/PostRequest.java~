@@ -1,4 +1,0 @@
-package it.epicode.blog.posts;
-
-public class PostRequest {
-}
