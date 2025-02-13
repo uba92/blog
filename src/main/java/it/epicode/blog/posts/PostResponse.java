@@ -1,5 +1,6 @@
 package it.epicode.blog.posts;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.epicode.blog.autore.Autore;
 import it.epicode.blog.autore.AutoreResponse;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,7 @@ public class PostResponse {
     private Long id;
     private String categoria;
     private String titolo;
-    private String cover;
-    private String contenuto;
-    private Time tempoDiLettura;
-    private AutoreResponse autore;
+    private int tempoDiLettura;
+    private String nomeAutore;
 
 }

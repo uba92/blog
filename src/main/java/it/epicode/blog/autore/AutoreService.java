@@ -1,34 +1,32 @@
 package it.epicode.blog.autore;
 
+import it.epicode.blog.mail.EmailService;
 import it.epicode.blog.posts.PostService;
 import it.epicode.blog.responses.CreateResponse;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class AutoreService {
     private final AutoreRepository autoreRepository;
     private final PostService postService;
+    private final EmailService emailService;
 
     //metodo GET per tutti gli autori
-    public List<AutoreResponse> findAll() {
-        List<Autore> autori = autoreRepository.findAll();
-        List<AutoreResponse> autoriResponse = new ArrayList<>();
-        for (Autore autore : autori) {
-            AutoreResponse autoreResponse = new AutoreResponse();
-            BeanUtils.copyProperties(autore, autoreResponse);
-            autoriResponse.add(autoreResponse);
-        }
-        return autoriResponse;
+    public Page<Autore> findAll(Pageable pageable) {
+        return autoreRepository.findAll(pageable);
     }
     //metodo GET trova autore da Id
     public AutoreResponse findById(Long id){
@@ -41,8 +39,23 @@ public class AutoreService {
         return autoreResponse;
     }
 
+    //metodo GET che trova autore con i suoi dettagli tramite il suo id
+    @Transactional
+    public AutoreDettaglioResponse findAutoreResponseById(Long id){
+        if (!autoreRepository.existsById(id)) {
+            throw new EntityExistsException("Autore non trovato!");
+        }
+
+        Autore autore = autoreRepository.findById(id).get();
+        AutoreDettaglioResponse response = new AutoreDettaglioResponse();
+        BeanUtils.copyProperties(autore, response);
+        response.setPosts(autore.getPosts());
+        return response;
+
+    }
+
     // crea un nuovo autore
-    public CreateResponse save(AutoreRequest request){
+    public CreateResponse create(@Valid AutoreRequest request){
         if (autoreRepository.existsByNomeAndCognome(request.getNome(), request.getCognome())) {
             throw new EntityExistsException("Autore già esistente");
 
@@ -50,6 +63,14 @@ public class AutoreService {
         Autore autore = new Autore();
         BeanUtils.copyProperties(request, autore);
         autoreRepository.save(autore);
+
+        //invio una mail alla creazioine di un autore
+        try {
+            emailService.sendEmail("u.tramontano92@libero.it", "AUTORE AGGIUNTO AL DB", "Autore " + autore.getNome() + " " + autore.getCognome() +" aggiunto al database!");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
         return new CreateResponse(autore.getId());
     }
 

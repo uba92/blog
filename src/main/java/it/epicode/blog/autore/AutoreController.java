@@ -2,6 +2,9 @@ package it.epicode.blog.autore;
 
 import it.epicode.blog.responses.CreateResponse;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,20 +19,26 @@ public class AutoreController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<AutoreResponse> findAll() {
-        return autoreService.findAll();
+    public Page<Autore> findAll(@ParameterObject Pageable pageable) {
+        return autoreService.findAll(pageable);
     }
+
+//    @GetMapping("/{id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public AutoreResponse findById(@PathVariable Long id) {
+//        return autoreService.findById(id);
+//    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AutoreResponse findById(@PathVariable Long id) {
-        return autoreService.findById(id);
+    public AutoreDettaglioResponse findAutoreResponseById(@PathVariable Long id) {
+        return autoreService.findAutoreResponseById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateResponse save(@RequestBody AutoreRequest request) {
-        return autoreService.save(request);
+        return autoreService.create(request);
     }
 
     @PutMapping("/{id}")

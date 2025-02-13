@@ -2,6 +2,7 @@ package it.epicode.blog.posts;
 
 import it.epicode.blog.autore.AutoreService;
 import it.epicode.blog.responses.CreateResponse;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class PostController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Post> findAll() {
+    public List<PostResponse> findAll() {
         return postService.findAll();
     }
 
@@ -30,8 +31,8 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateResponse save(@RequestBody PostRequest request) {
-        return postService.save(request);
+    public CreateResponse save(@RequestBody PostRequest request) throws MessagingException {
+        return postService.create(request);
 
     }
 
