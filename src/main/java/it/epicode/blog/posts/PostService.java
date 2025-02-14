@@ -7,14 +7,17 @@ import it.epicode.blog.responses.CreateResponse;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 
 import java.util.List;
 
 @Service
+@Validated
 public class PostService {
 
     @Autowired
@@ -41,7 +44,7 @@ public class PostService {
 
     // crea un nuovo post
     //invio una email di notifica all'inserimento di un post
-    public CreateResponse create(PostRequest request){
+    public CreateResponse create(@Valid PostRequest request){
         if (postRepository.existsByTitolo(request.getTitolo())) {
             throw new EntityExistsException("Post già esistente");
         }
