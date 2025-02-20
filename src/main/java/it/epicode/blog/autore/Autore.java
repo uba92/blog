@@ -1,6 +1,6 @@
 package it.epicode.blog.autore;
 
-
+//commento di prova
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.epicode.blog.posts.Post;
 import jakarta.persistence.*;
